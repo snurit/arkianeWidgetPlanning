@@ -36,6 +36,11 @@
                     } else {
                         return [false,"date-unavailable",""];
                     }
+                },
+                onSelect: function(date){
+                    if ($.inArray(date.toISOString().substr(0,10), ds) >= 0) {
+                        return [true,"date-available",""];
+                    }
                 }
             });
 
