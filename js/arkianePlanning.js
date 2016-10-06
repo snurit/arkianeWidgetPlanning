@@ -11,13 +11,19 @@
             site: 1
         }, options );
         
+        // Days available
+        var dt = new Array();
+        // Start bookin fays available
+        var ds = new Array();
+
         //Build the base arkiane JQuery UI calendar
         if ( settings.action === "build") {
             // getting availabilities
-            var datesAvailable = new Array();
-            datesAvailable = getAvailabilities(settings.usr, settings.pwd, settings.agency, settings.lot_ref, settings.site);
-            availableStartDate = getAvailableStartDate(settings.usr, settings.pwd, settings.agency, settings.lot_ref, settings.site);
-            console.log(availableStartDate.length);
+            getAvailabilities(settings.usr, settings.pwd, settings.agency, settings.lot_ref, settings.site);
+            getAvailableStartDate(settings.usr, settings.pwd, settings.agency, settings.lot_ref, settings.site);
+
+            //console.log(dt);
+            //console.log(ds);
 
             $(settings.target).datepicker({
                 numberOfMonths: 2,
@@ -25,13 +31,10 @@
                 //minDate : settings.minBookingDate,
                 //maxDate : settings.maxBookingDate,
                 beforeShowDay: function(date){
-                    dmy = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
-                    
-                    if ($.inArray(dmy, datesAvailable) < 0) {
-                        return [true,"date-available"];
+                    if ($.inArray(date.toISOString().substr(0,10), dt) >= 0) {
+                        return [true,"date-available",""];
                     } else {
-                        console.log("in date unavailable");
-                        return [false,"date-unavailable"];
+                        return [false,"date-unavailable",""];
                     }
                 }
             });
@@ -44,19 +47,14 @@
         function getAvailabilities(usr, pwd, agency, lot_ref, culture = "fr_FR", site = 1)
         {
             var url = "http://web4g.arkiane.com/api/api/"+usr+"/"+pwd+"/"+agency+"/"+site+"/fr-FR/Planning/Get?lot_ref="+lot_ref;
-            var req = $.ajax({dataType: "jsonp", url: url});
-            var dt = new Array();
-
-            //Done when OK
-            req.done(function (data) {
+            var req = $.ajax({dataType: "jsonp", url: url, success: function(data) {
                 $.each(data, function( index, value ){
-                    dt = dt.concat(getDateRange(new Date(value.dispo_deb), new Date(value.dispo_fin)));
+                    Array.prototype.push.apply(dt, getDateRange(value.dispo_deb.substr(0,10), value.dispo_fin.substr(0,10)));
                 });
 
                 console.log("Nombre de jours dispos = "+dt.length);
-                return dt;
-            });
-            
+            }});
+
             //Done when an error occur
             req.fail(function(){
                 console.log("ERROR : unable to GET availabilities");
@@ -66,17 +64,12 @@
 
         function getAvailableStartDate(usr, pwd, agency, lot_ref, culture = "fr_FR", site = 1){
             var url = "http://web4g.arkiane.com/api/api/"+usr+"/"+pwd+"/"+agency+"/"+site+"/fr-FR/Dates/Get?lot_ref="+lot_ref;
-            var req = $.ajax({dataType: "jsonp", url: url});
-            var dt = new Array();
-
-            // OK
-            req.done(function (data) {
+            var req = $.ajax({dataType: "jsonp", url: url, success : function (data) {
                 $.each(data, function( index, value ){
-                    dt.push(new Date(value));
+                    ds.push(value.substr(0,10));
                 });
-                console.log("Nombre de jour de début spécifiés = "+dt.length);
-                return dt;
-            });
+                console.log("Nombre de jour de début spécifiés = "+ds.length);
+            }});
             
             // Error
             req.fail(function(){
@@ -88,10 +81,11 @@
         //return an array of date between 2 dates
         function getDateRange(dateStart, dateEnd){
             var range = new Array();
-            var currDate = dateStart;
+            var currDate = new Date(dateStart);
+            var tgtDate = new Date(dateEnd);
 
-            while(currDate <= dateEnd){
-                range.push(currDate);
+            while(currDate <= tgtDate){
+                range.push(currDate.toISOString().substr(0,10));
                 currDate = addDay(currDate);
             }
             return range;
