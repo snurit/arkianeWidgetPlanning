@@ -12,10 +12,23 @@
 </head>
 
 <body>
+<style type="text/css">
+td.date-available, table.ui-datepicker-calendar tbody td.specialDay a { 
+    background: none !important;
+    background-color: green !important; 
+    color: #006633;
+}
+
+td.date-unavailable, table.ui-datepicker-calendar tbody td.specialDay a { 
+    background: none !important;
+    background-color: red !important; 
+    color: #006633;
+}
+</style>
 Calendrier :
-<div id="calendar"></div>
+<div id="calendar" style="visibility:hidden"></div>
 <script>
-$.fn.arkianePlanning();
+$.fn.arkianePlanning({lot_ref : "CA1", usr: "WM_COLOCARTS", pwd: "clct1036", agency: 282});
 </script>
 </body>
 
