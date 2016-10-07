@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+</head>
+<body>
+<!--
+Pour arriver sur la page du lot il faut spécifier le lot_no à la fin de l'url (XXXX)
+http://montagneimmo.arkiane.com/fr-FR/Lot/Detail/XXXX
+
+Ou bien le lot_ref
+http://montagneimmo.arkiane.com/fr-FR/Lot/Detail/Ref/XXXX
+-->
+<form method="post" action="http://montagneimmo.arkiane.com/fr-FR/Lot/Detail/143" target="_blank">
+  <!--
+    Ces 4 premiers champs sont le strict minimum à transmettre si vous souhaitez que l'internaute ait une date de début et fin de séjour pré sélectionnées.
+    comm_no est retourné dans le flux Availabilities
+  -->
+  <input type="hidden" name="lot_no" value="143">
+  <input type="hidden" name="comm_no" value="101">
+  <input type="hidden" name="startdate" value="24/12/2016">
+  <input type="hidden" name="enddate" value="31/12/2016">
+
+  <input type="submit" name="submit" value="Réserver en ligne »">
+</form>
+</body>
+</html>

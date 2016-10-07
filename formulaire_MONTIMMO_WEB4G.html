@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+</head>
+<body>
+<form method="post" action="http://montagneimmo.arkiane.com/fr-FR/Resa/Validate" target="_blank">
+  <!--
+    Ces 4 premiers champs sont le strict minimum pour valider la réservation.
+    comm_no est retourné dans le flux Availabilities
+  -->
+  <input type="hidden" name="lot_no" value="143">
+  <input type="hidden" name="comm_no" value="101">
+  <input type="hidden" name="startdate" value="24/12/2016">
+  <input type="hidden" name="enddate" value="31/12/2016">
+  <!--
+    Taxe de séjour :
+    Il faut envoyer à chaque fois un input selectedRubriques pour le nombre d'adultes et enfants
+  -->
+  <input type="hidden" name="selectedRubriques" value="nb_adultes|8">
+  <input type="hidden" name="selectedRubriques" value="nb_enfants|0">
+  <!-- 
+    Assurance Annulation :
+    Il est possible qu'une agence propose une assurance annulation.
+    Si vous souhaitez la choisir sur votre tunnel, il faut envoyer l'input suivant :
+  -->
+  <input type="hidden" name="selectedRubriques" value="rubr_assurance|true">
+  <!--
+    Prestations :
+    Il faut respecter l'ordre numPrestations puis qtePrestations comme sur les anciens sites Arkiane 3Gv2
+  -->
+  <input type="hidden" name="numPrestations" value="101">
+  <input type="hidden" name="qtePrestations" value="1">
+  <input type="hidden" name="numPrestations" value="102">
+  <input type="hidden" name="qtePrestations" value="1">
+  <input type="hidden" name="numPrestations" value="103">
+  <input type="hidden" name="qtePrestations" value="1">
+<!--
+    Infos Client:
+    - Civilite valeurs possibles : "M.", "Mme" ou "Mlle"
+    - Country code ISO, notre liste (standard) :
+      value="AF" libellé=Afghanistan
+      value="ZA" libellé=Afrique Du Sud
+      value="AL" libellé=Albanie
+      value="DZ" libellé=Algérie
+      value="DE" libellé=Allemagne
+      value="AD" libellé=Andorre
+      value="AO" libellé=Angola
+      value="AI" libellé=Anguilla
+      value="AQ" libellé=Antarctique
+      value="AG" libellé=Antigua-et-Barbuda
+      value="AN" libellé=Antilles Néerlandaises
+      value="SA" libellé=Arabie Saoudite
+      value="AR" libellé=Argentine
+      value="AM" libellé=Arménie
+      value="AW" libellé=Aruba
+      value="AU" libellé=Australie
+      value="AT" libellé=Autriche
+      value="AZ" libellé=Azerbaïdjan
+      value="BS" libellé=Bahamas
+      value="BH" libellé=Bahreïn
+      value="BD" libellé=Bangladesh
+      value="BB" libellé=Barbade
+      value="BE" libellé=Belgique
+      value="BZ" libellé=Belize
+      value="BJ" libellé=Bénin
+      value="BM" libellé=Bermudes
+      value="BT" libellé=Bhoutan
+      value="BY" libellé=Biélorussie
+      value="BO" libellé=Bolivie
+      value="BA" libellé=Bosnie Herzégovine
+      value="BW" libellé=Botswana
+      value="BR" libellé=Brésil
+      value="BN" libellé=Brunei
+      value="BG" libellé=Bulgarie
+      value="BF" libellé=Burkina Faso
+      value="BI" libellé=Burundi
+      value="KH" libellé=Cambodge
+      value="CM" libellé=Cameroun
+      value="CA" libellé=Canada
+      value="CV" libellé=Cap-Vert
+      value="CL" libellé=Chili
+      value="CN" libellé=Chine
+      value="CY" libellé=Chypre
+      value="CO" libellé=Colombie
+      value="KM" libellé=Comores
+      value="CG" libellé=Congo
+      value="KP" libellé=Corée du Nord
+      value="KR" libellé=Corée du Sud
+      value="CR" libellé=Costa Rica
+      value="CI" libellé=Côte d'Ivoire
+      value="HR" libellé=Croatie
+      value="CU" libellé=Cuba
+      value="DK" libellé=Danemark
+      value="HM" libellé=Des îles Heard et McDonald
+      value="DJ" libellé=Djibouti
+      value="DM" libellé=Dominique
+      value="EG" libellé=Egypte
+      value="AE" libellé=Émirats Arabes Unis
+      value="EC" libellé=Equateur
+      value="ER" libellé=Erythrée
+      value="ES" libellé=Espagne
+      value="EE" libellé=Estonie
+      value="US" libellé=États-Unis
+      value="ET" libellé=Ethiopie
+      value="FJ" libellé=Fidji
+      value="FI" libellé=Finlande
+      value="FR" libellé=France
+      value="GA" libellé=Gabon
+      value="GM" libellé=Gambie
+      value="GE" libellé=Géorgie
+      value="GS" libellé=Géorgie du Sud et les îles Sandwich du Sud
+      value="GH" libellé=Ghana
+      value="GI" libellé=Gibraltar
+      value="GR" libellé=Grèce
+      value="GD" libellé=Grenade
+      value="GL" libellé=Groenland
+      value="GP" libellé=Guadeloupe
+      value="GU" libellé=Guam
+      value="GT" libellé=Guatemala
+      value="GN" libellé=Guinée
+      value="GQ" libellé=Guinée Equatoriale
+      value="GW" libellé=Guinée-Bissau
+      value="GY" libellé=Guyane
+      value="GF" libellé=Guyane Française
+      value="HT" libellé=Haïti
+      value="HN" libellé=Honduras
+      value="HK" libellé=Hong-Kong
+      value="HU" libellé=Hongrie
+      value="BV" libellé=Île Bouvet
+      value="CX" libellé=Île Christmas
+      value="MU" libellé=Île Maurice
+      value="NF" libellé=Île Norfolk
+      value="AX" libellé=Îles Aland
+      value="KY" libellé=Îles Caïmans
+      value="CC" libellé=Îles Cocos
+      value="CK" libellé=Iles Cook
+      value="FO" libellé=Îles Féroé
+      value="FK" libellé=Iles Malouines
+      value="MH" libellé=Iles Marshall
+      value="UM" libellé=Îles mineures éloignées des États-Unis
+      value="PN" libellé=Îles Pitcairn
+      value="SB" libellé=Îles Salomon
+      value="TC" libellé=Îles Turques et Caïques
+      value="VI" libellé=Îles Vierges américaines
+      value="VG" libellé=Îles Vierges Britanniques
+      value="IN" libellé=Inde
+      value="ID" libellé=Indonésie
+      value="IQ" libellé=Irak
+      value="IR" libellé=Iran
+      value="IE" libellé=Irlande
+      value="IS" libellé=Islande
+      value="IL" libellé=Israël
+      value="IT" libellé=Italie
+      value="JM" libellé=Jamaïque
+      value="JP" libellé=Japon
+      value="JO" libellé=Jordanie
+      value="KZ" libellé=Kazakhstan
+      value="KE" libellé=Kenya
+      value="KG" libellé=Kirghizstan
+      value="KI" libellé=Kiribati
+      value="KW" libellé=Koweit
+      value="LA" libellé=Laos
+      value="VA" libellé=le Saint-Siège (Cité du Vatican)
+      value="SV" libellé=Le Salvador
+      value="LS" libellé=Lesotho
+      value="LV" libellé=Lettonie
+      value="LB" libellé=Liban
+      value="LR" libellé=Libéria
+      value="LY" libellé=Libye
+      value="LI" libellé=Liechtenstein
+      value="LT" libellé=Lituanie
+      value="LU" libellé=Luxembourg
+      value="MO" libellé=Macau
+      value="MK" libellé=Macédoine
+      value="MG" libellé=Madagascar
+      value="MY" libellé=Malaisie
+      value="MW" libellé=Malawi
+      value="MV" libellé=Maldives
+      value="ML" libellé=Mali
+      value="MT" libellé=Malte
+      value="MP" libellé=Mariannes du Nord
+      value="MA" libellé=Maroc
+      value="MQ" libellé=Martinique
+      value="MR" libellé=Mauritanie
+      value="YT" libellé=Mayotte
+      value="MX" libellé=Mexique
+      value="FM" libellé=Micronésie
+      value="MD" libellé=Moldova
+      value="MC" libellé=Monaco
+      value="MN" libellé=Mongolie
+      value="ME" libellé=Monténégro
+      value="MS" libellé=Montserrat
+      value="MZ" libellé=Mozambique
+      value="MM" libellé=Myanmar
+      value="NA" libellé=Namibie
+      value="NR" libellé=Nauru
+      value="NP" libellé=Népal
+      value="NI" libellé=Nicaragua
+      value="NE" libellé=Niger
+      value="NG" libellé=Nigeria
+      value="NU" libellé=Niue
+      value="NO" libellé=Norvège
+      value="NZ" libellé=Nouvelle Zélande
+      value="NC" libellé=Nouvelle-Calédonie
+      value="OM" libellé=Oman
+      value="UG" libellé=Ouganda
+      value="UZ" libellé=Ouzbékistan
+      value="PK" libellé=Pakistan
+      value="PW" libellé=Palau
+      value="PA" libellé=Panama
+      value="PG" libellé=Papouasie Nouvelle Guinée
+      value="PY" libellé=Paraguay
+      value="NL" libellé=Pays-Bas
+      value="PE" libellé=Pérou
+      value="PH" libellé=Philippines
+      value="PL" libellé=Pologne
+      value="PF" libellé=Polynésie Française
+      value="PR" libellé=Porto Rico
+      value="PT" libellé=Portugal
+      value="QA" libellé=Qatar
+      value="CF" libellé=République Centrafricaine
+      value="CD" libellé=République Démocratique du Congo
+      value="DO" libellé=République Dominicaine
+      value="CZ" libellé=République Tchèque
+      value="RE" libellé=Réunion
+      value="RO" libellé=Roumanie
+      value="GB" libellé=Royaume-Uni
+      value="RU" libellé=Russie
+      value="RW" libellé=Rwanda
+      value="EH" libellé=Sahara Occidental
+      value="SH" libellé=Sainte-Hélène
+      value="LC" libellé=Sainte-Lucie
+      value="KN" libellé=Saint-Kitts-et-Nevis
+      value="PM" libellé=Saint-Pierre-et-Miquelon
+      value="VC" libellé=Saint-Vincent-et-les Grenadines
+      value="WS" libellé=Samoa
+      value="AS" libellé=Samoa américaines
+      value="SM" libellé=San Marino
+      value="ST" libellé=São Tomé et Príncipe
+      value="SN" libellé=Sénégal
+      value="RS" libellé=Serbie
+      value="SC" libellé=Seychelles
+      value="SL" libellé=Sierra Leone
+      value="SG" libellé=Singapour
+      value="SK" libellé=Slovaquie
+      value="SI" libellé=Slovénie
+      value="SO" libellé=Somalie
+      value="SD" libellé=Soudan
+      value="LK" libellé=Sri Lanka
+      value="SE" libellé=Suède
+      value="CH" libellé=Suisse
+      value="SR" libellé=Suriname
+      value="SJ" libellé=Svalbard et Jan Mayen
+      value="SZ" libellé=Swaziland
+      value="SY" libellé=Syrie
+      value="TJ" libellé=Tadjikistan
+      value="TW" libellé=Taiwan
+      value="TZ" libellé=Tanzanie
+      value="TD" libellé=Tchad
+      value="TF" libellé=Terres Australes Françaises
+      value="IO" libellé=Territoire Britannique de l'océan Indien
+      value="TH" libellé=Thaïlande
+      value="TL" libellé=Timor Oriental
+      value="TG" libellé=Togo
+      value="TK" libellé=Tokelau
+      value="TO" libellé=Tonga
+      value="TT" libellé=Trinité-et-Tobago
+      value="TN" libellé=Tunisie
+      value="TM" libellé=Turkménistan
+      value="TR" libellé=Turquie
+      value="TV" libellé=Tuvalu
+      value="UA" libellé=Ukraine
+      value="UY" libellé=Uruguay
+      value="VU" libellé=Vanuatu
+      value="VE" libellé=Venezuela
+      value="VN" libellé=Viêt-Nam
+      value="WF" libellé=Wallis et Futuna
+      value="YE" libellé=Yémen
+      value="ZM" libellé=Zambie
+      value="ZW" libellé=Zimbabwe
+  -->
+  <input type="hidden" name="coord.Civilite" value="M.">
+  <input type="hidden" name="coord.Name" value="DEVWEB2016">
+  <input type="hidden" name="coord.FirstName" value="Arkiane">
+  <input type="hidden" name="coord.Mobile" value="+33476259950">
+  <input type="hidden" name="coord.Name" value="Arkiane">
+  <input type="hidden" name="coord.Adress1" value="TEST'WEB">
+  <input type="hidden" name="coord.Adress2" value="SUITE DEMANDE SUPPORT">
+  <input type="hidden" name="coord.Adress3" value="NE PAS SUPPRIMER MERCI !">
+  <input type="hidden" name="coord.Zip" value="38100">
+  <input type="hidden" name="coord.City" value="Grenoble">
+  <input type="hidden" name="coord.Country" value="FR">
+  <input type="hidden" name="coord.Email" value="philippe@arkiane.com">
+  <input type="hidden" name="coord.ConfirmEmail" value="philippe@arkiane.com">
+  <input type="hidden" name="coord.Phone" value="+33476259950">
+  <input type="submit" name="submit" value="Réserver en ligne »">
+</form>
+</body>
+</html>

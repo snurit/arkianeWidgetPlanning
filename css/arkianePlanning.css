@@ -9,3 +9,7 @@ td.date-unavailable, table.ui-datepicker-calendar tbody td.specialDay a {
     background-color: red !important; 
     color: #006633;
 }
+
+#calendar-infos{
+    background-color: red;
+}
