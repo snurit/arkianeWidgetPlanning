@@ -1,13 +1,15 @@
 td.date-available, table.ui-datepicker-calendar tbody td.specialDay a { 
     background: none !important;
-    background-color: green !important; 
-    color: #006633;
+    background-color:#96b534 !important; 
+    color:white;
+    text-align: center;
 }
 
 td.date-unavailable, table.ui-datepicker-calendar tbody td.specialDay a { 
     background: none !important;
-    background-color: red !important; 
-    color: #006633;
+    background-color:#404040 !important; 
+    color:#c1c1c1;
+    text-align:center;
 }
 
 #calendar-infos{

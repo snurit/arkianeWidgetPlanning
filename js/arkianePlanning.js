@@ -16,27 +16,13 @@
         // Start bookin fays available
         var ds = new Array();
 
+        buildForm();
+
         //Build the base arkiane JQuery UI calendar
         if ( settings.action === "build") {
             // getting availabilities
             getAvailabilities(settings.usr, settings.pwd, settings.agency, settings.lot_no, settings.site);
             getAvailableStartDate(settings.usr, settings.pwd, settings.agency, settings.lot_no, settings.site);
-            
-            // creating a div for calendar
-            $(settings.target).append('<div id="calendar-widget"></div>');
-
-            // creating a div for showing booking information
-            $(settings.target).append('<div id="calendar-infos" style="visibility:hidden"></div>');
-            $("#calendar-infos").append('<form action="http://montagneimmo.arkiane.com/fr-FR/Lot/Detail/'+settings.lot_no+'" method="post" name="calendar-form" target="_blank"></form>');
-            // init calendar-infos content
-            $("form[name=calendar-form]").append('<input type="hidden" name="lot_no" value="'+settings.lot_no+'">');
-            // Not implemented yet
-            //$("#calendar-infos").append('<input type="hidden" name="comm_no">');
-            $("form[name=calendar-form]").append('<input type="hidden" name="startdate">');
-            $("form[name=calendar-form]").append('<input type="hidden" name="enddate">');
-            // Submit button
-            $("form[name=calendar-form]").append('<input type="submit" value="Réserver">');
-
 
             $("#calendar-widget").datepicker({
                 numberOfMonths: 1,
@@ -134,6 +120,22 @@
             var result = new Date(date);
             result.setDate(result.getDate() + 1);
             return result;
+        }
+
+        function buildForm(){
+            // creating a div for calendar
+            $(settings.target).append('<div id="calendar-widget"></div>');
+
+            // creating a div for showing booking information
+            $(settings.target).append('<div id="calendar-infos" style="visibility:hidden"></div>');
+            $("#calendar-infos").append('<form action="http://montagneimmo.arkiane.com/fr-FR/Resa/Validate" method="post" name="calendar-form" target="_blank"></form>');
+            // init calendar-infos content
+            $("form[name=calendar-form]").append('<input type="hidden" name="lot_no" value="'+settings.lot_no+'">');
+            $("form[name=calendar-form]").append('<input type="hidden" name="comm_no" value="101">');
+            $("form[name=calendar-form]").append('<input type="hidden" name="startdate">');
+            $("form[name=calendar-form]").append('<input type="hidden" name="enddate">');
+            // Submit button
+            $("form[name=calendar-form]").append('<input type="submit" value="Réserver">');
         }
     };
 }(jQuery));
