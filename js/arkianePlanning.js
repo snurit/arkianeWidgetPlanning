@@ -8,6 +8,7 @@
             minBookingDate : "+3D",
             //Maximum booking date
             maxBookingDate: "+8M",
+            selectWeek: true,
             site: 1
         }, options );
         
@@ -23,6 +24,8 @@
             // getting availabilities
             getAvailabilities(settings.usr, settings.pwd, settings.agency, settings.lot_no, settings.site);
             getAvailableStartDate(settings.usr, settings.pwd, settings.agency, settings.lot_no, settings.site);
+
+            console.log(dt);
 
             $("#calendar-widget").datepicker({
                 numberOfMonths: 1,
@@ -44,10 +47,16 @@
                 weekHeader: 'Sem.',
                 dateFormat: 'yy-mm-dd',
                 beforeShowDay: function(date){
-                    if ($.inArray(date.toISOString().substr(0,10), dt) >= 0) {
-                        return [true,"date-available",""];
-                    } else {
-                        return [false,"date-unavailable",""];
+                    var dateNext = addDay(date);
+                    // date is available day and is a start date
+                    if (($.inArray(dateNext.toISOString().substr(0,10), dt) != -1) && ($.inArray(dateNext.toISOString().substr(0,10), ds) != -1)) {
+                        return [true,"ap-isBookable",""];
+                    // date is available but is not a start date
+                    } else if($.inArray(dateNext.toISOString().substr(0,10), dt) != -1) {
+                        return [false,"ap-isAvailable",""];
+                    }else{
+                    // date is unavailable
+                        return [false,"ap-isUnavailable",""];
                     }
                 },
                 onSelect: function(selected, evnt){
@@ -58,7 +67,10 @@
                         tmp.setDate(tmp.getDate() + 7);
                         arr = tmp.toISOString().substr(0,10).split('-');
                         $("input[name=enddate]").val(arr[2]+'/'+arr[1]+'/'+arr[0]);
+                        $("#dateStart").text("Début de séjour : "+selected);
                         $("#calendar-infos").css("visibility", "visible");
+                    }else{
+                        $("#calendar-infos").css("visibility", "hidden");
                     }
                 }
             });
@@ -124,10 +136,11 @@
 
         function buildForm(){
             // creating a div for calendar
-            $(settings.target).append('<div id="calendar-widget"></div>');
+            $(settings.target).append('<div id="calendar-widget" class="ll-skin-cangas"></div>');
 
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="visibility:hidden"></div>');
+            $("#calendar-infos").append('<p id="dateStart"></p>');
             $("#calendar-infos").append('<form action="http://montagneimmo.arkiane.com/fr-FR/Resa/Validate" method="post" name="calendar-form" target="_blank"></form>');
             // init calendar-infos content
             $("form[name=calendar-form]").append('<input type="hidden" name="lot_no" value="'+settings.lot_no+'">');

@@ -1,17 +1,39 @@
-td.date-available, table.ui-datepicker-calendar tbody td.specialDay a { 
+td.ap-isAvailable, table.ui-datepicker-calendar tbody td.specialDay a { 
     background: none !important;
     background-color:#96b534 !important; 
     color:white;
     text-align: center;
 }
 
-td.date-unavailable, table.ui-datepicker-calendar tbody td.specialDay a { 
+td.ap-isUnavailable, table.ui-datepicker-calendar tbody td.specialDay a { 
     background: none !important;
-    background-color:#404040 !important; 
-    color:#c1c1c1;
+    background-color:#FF0000 !important; 
+    color:#404040;
     text-align:center;
 }
 
+td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a { 
+    background: none !important;
+    background-color:#96b534 !important; 
+    color:white;
+    text-align: center;
+}
+
+.ll-skin-cangas td .ui-state-active,
+.ll-skin-cangas td .ui-state-hover {
+	border: 1px solid rgba(121,188,27,.68);
+	background: #a3d143;
+	color: #fff;
+	text-shadow: 0 -1px 0 #30332a;
+}
+
 #calendar-infos{
-    background-color: red;
+    width: 269px;
+    height: 199px;
+    float:left;
+}
+
+#calendar{
+    width:538px;
+    border:1px dashed red;
 }
