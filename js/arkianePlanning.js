@@ -17,6 +17,11 @@
         // Start bookin fays available
         var ds = new Array();
 
+        // Date & accomodation
+        var startDate = '';
+        var endDate = '';
+        var accomodation = null;
+
         buildForm();
 
         //Build the base arkiane JQuery UI calendar
@@ -63,11 +68,17 @@
                     if ($.inArray(selected, ds) >= 0) {
                         var arr = selected.split('-');
                         $("input[name=startdate]").val(arr[2]+'/'+arr[1]+'/'+arr[0]);
+                        /*
                         var tmp = new Date(selected);
                         tmp.setDate(tmp.getDate() + 7);
                         arr = tmp.toISOString().substr(0,10).split('-');
                         $("input[name=enddate]").val(arr[2]+'/'+arr[1]+'/'+arr[0]);
+                        */
                         $("#dateStart").text("Début de séjour : "+selected);
+
+                        // Get accomodation info for selected startDate
+                        startDate = selected;
+                        getAccomodationDetails(settings.usr, settings.pwd, settings.agency, settings.lot_no, settings.site);
                         $("#calendar-infos").css("visibility", "visible");
                     }else{
                         $("#calendar-infos").css("visibility", "hidden");
@@ -114,6 +125,24 @@
             });
         }
 
+        function getAccomodationDetails(usr, pwd, agency, lot_no, culture = "fr_FR", site = 1, duration = 7){
+            
+            var std = startDate.substr(8,2)+'/'+startDate.substr(5,2)+'/'+startDate.substr(0,4);
+            var edt = new Date(startDate.substr(0,4), parseInt(startDate.substr(5,2)) - 1, startDate.substr(8,2));
+            edt.setDate(edt.getDate() + duration);
+            var url = "http://web4g.arkiane.com/api/api/"+usr+"/"+pwd+"/"+agency+"/"+site+"/fr-FR/Details/?lot_no="+lot_no+"&startDate="+std+"&endDate="+edt.getDate()+'/'+(edt.getMonth()+1)+'/'+edt.getFullYear();
+            var req = $.ajax({dataType: "jsonp", url: url, success : function (data) {
+                accomodation = data;
+                $("select[name=duration]").append('<option value="'+edt.getDate()+'/'+(edt.getMonth()+1)+'/'+edt.getFullYear()+'">'+duration+' jours - A partir de '+data.LotDetails[0].prix+' €</option>');
+            }});
+            
+            // Error
+            req.fail(function(){
+                console.log("ERROR : unable to GET available start dates");
+                return false;
+            });
+        }
+
         //return an array of date between 2 dates
         function getDateRange(dateStart, dateEnd){
             var range = new Array();
@@ -141,12 +170,21 @@
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="visibility:hidden"></div>');
             $("#calendar-infos").append('<p id="dateStart"></p>');
+            $("#calendar-infos").append('<select name="duration" id="duration">');
+            $("select[name=duration]").append('<option value="0">--- Durée de votre séjour ---</option>');
+            $( "select[name=duration]" ).selectmenu();
+            $( "select[name=duration]" ).on( "selectmenuselect", function() { $("input[name=enddate]").val($( "select[name=duration]" ).val());} );
+
             $("#calendar-infos").append('<form action="http://montagneimmo.arkiane.com/fr-FR/Resa/Validate" method="post" name="calendar-form" target="_blank"></form>');
             // init calendar-infos content
             $("form[name=calendar-form]").append('<input type="hidden" name="lot_no" value="'+settings.lot_no+'">');
             $("form[name=calendar-form]").append('<input type="hidden" name="comm_no" value="101">');
             $("form[name=calendar-form]").append('<input type="hidden" name="startdate">');
             $("form[name=calendar-form]").append('<input type="hidden" name="enddate">');
+            // NbAdultes set by default to 0
+            $("form[name=calendar-form]").append('<input type="hidden" name="selectedRubriques" value="nb_adultes|0">');
+            // NbEnfants set by default to 0
+            $("form[name=calendar-form]").append('<input type="hidden" name="selectedRubriques" value="nb_enfants|0">');
             // Submit button
             $("form[name=calendar-form]").append('<input type="submit" value="Réserver">');
         }
