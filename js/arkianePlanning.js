@@ -170,10 +170,18 @@
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="visibility:hidden"></div>');
             $("#calendar-infos").append('<p id="dateStart"></p>');
+
+            // Stay duration
+            $("#calendar-infos").append('<label for="duration">Durée de votre séjour</label>');
             $("#calendar-infos").append('<select name="duration" id="duration">');
-            $("select[name=duration]").append('<option value="0">--- Durée de votre séjour ---</option>');
-            $( "select[name=duration]" ).selectmenu();
-            $( "select[name=duration]" ).on( "selectmenuselect", function() { $("input[name=enddate]").val($( "select[name=duration]" ).val());} );
+            $("select[name=duration]").selectmenu();
+            $("select[name=duration]").on( "selectmenuselect", function() { $("input[name=enddate]").val($( "select[name=duration]" ).val());} );
+
+            // Cancel insurance
+            $("#calendar-infos").append('<fieldset name="insurance-select"><legend>Assurance annulation</legend></fieldset>');
+            $("fieldset[name=insurance-select]").append('<label for="insurance-yes">J accepte</label><input type="radio" name="insurance-select" id="insurance-yes" value="rubr_assurance|true">');
+            $("fieldset[name=insurance-select]").append('<label for="insurance-no">Je refuse</label><input type="radio" name="insurance-select" id="insurance-no" value="rubr_assurance|false">');
+            $("input[name=insurance-select]").checkboxradio().on( "change", function() { $("#input-insurance").val($('input[name=insurance-select]:checked').val()); console.log('insurance select');} );
 
             $("#calendar-infos").append('<form action="http://montagneimmo.arkiane.com/fr-FR/Resa/Validate" method="post" name="calendar-form" target="_blank"></form>');
             // init calendar-infos content
@@ -181,6 +189,7 @@
             $("form[name=calendar-form]").append('<input type="hidden" name="comm_no" value="101">');
             $("form[name=calendar-form]").append('<input type="hidden" name="startdate">');
             $("form[name=calendar-form]").append('<input type="hidden" name="enddate">');
+            $("form[name=calendar-form]").append('<input type="hidden" name="selectedRubriques" id="input-insurance" value="rubr_assurance|true">');
             // NbAdultes set by default to 0
             $("form[name=calendar-form]").append('<input type="hidden" name="selectedRubriques" value="nb_adultes|0">');
             // NbEnfants set by default to 0
