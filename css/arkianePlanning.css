@@ -30,10 +30,15 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
 #calendar-infos{
     width: 269px;
     height: 199px;
+}
+
+#calendar-widget, #calendar-infos{
+    margin:0px;
+    padding: 10px;
     float:left;
 }
 
 #calendar{
-    width:538px;
+    width:540px;
     border:1px dashed red;
 }

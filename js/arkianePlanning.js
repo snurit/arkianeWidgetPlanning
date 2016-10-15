@@ -9,13 +9,19 @@
             //Maximum booking date
             maxBookingDate: "+8M",
             selectWeek: true,
+            culture: "fr_FR",
+            default_duration: 7,
             site: 1
         }, options );
         
+        var base_url = "http://web4g.arkiane.com/api/api/"+settings.usr+"/"+settings.pwd+"/"+settings.agency+"/"+settings.site+"/"+settings.culture+"/";
+        
         // Days available
         var dt = new Array();
-        // Start bookin fays available
+        // Start booking dates available
         var ds = new Array();
+        // End booking dates available
+        var de = new Array();
 
         // Date & accomodation
         var startDate = '';
@@ -27,10 +33,9 @@
         //Build the base arkiane JQuery UI calendar
         if ( settings.action === "build") {
             // getting availabilities
-            getAvailabilities(settings.usr, settings.pwd, settings.agency, settings.lot_no, settings.site);
-            getAvailableStartDate(settings.usr, settings.pwd, settings.agency, settings.lot_no, settings.site);
-
-            console.log(dt);
+            getAvailabilities();
+            // getting available start date
+            getAvailableDate();
 
             $("#calendar-widget").datepicker({
                 numberOfMonths: 1,
@@ -68,19 +73,16 @@
                     if ($.inArray(selected, ds) >= 0) {
                         var arr = selected.split('-');
                         $("input[name=startdate]").val(arr[2]+'/'+arr[1]+'/'+arr[0]);
-                        /*
-                        var tmp = new Date(selected);
-                        tmp.setDate(tmp.getDate() + 7);
-                        arr = tmp.toISOString().substr(0,10).split('-');
-                        $("input[name=enddate]").val(arr[2]+'/'+arr[1]+'/'+arr[0]);
-                        */
                         $("#dateStart").text("Début de séjour : "+selected);
 
-                        // Get accomodation info for selected startDate
                         startDate = selected;
-                        getAccomodationDetails(settings.usr, settings.pwd, settings.agency, settings.lot_no, settings.site);
+                        // Get available end date for accomation and selected start date
+                        console.log("nb jours spécifiés ="+ds.length);
+                        getAvailableDate(selected);
                         $("#calendar-infos").css("visibility", "visible");
                     }else{
+                        $("input[name=startdate]").val("");
+                        $("#dateStart").text("");
                         $("#calendar-infos").css("visibility", "hidden");
                     }
                 }
@@ -91,9 +93,9 @@
         }
 
         //Retrieving available date for a lot_no
-        function getAvailabilities(usr, pwd, agency, lot_no, culture = "fr_FR", site = 1)
-        {
-            var url = "http://web4g.arkiane.com/api/api/"+usr+"/"+pwd+"/"+agency+"/"+site+"/fr-FR/Planning/Get?lot_no="+lot_no;
+        function getAvailabilities(){
+            var url = base_url+"Planning/Get?lot_no="+settings.lot_no;
+            console.log(url);
             var req = $.ajax({dataType: "jsonp", url: url, success: function(data) {
                 $.each(data, function( index, value ){
                     Array.prototype.push.apply(dt, getDateRange(value.dispo_deb.substr(0,10), value.dispo_fin.substr(0,10)));
@@ -104,37 +106,70 @@
 
             //Done when an error occur
             req.fail(function(){
-                console.log("ERROR : unable to GET availabilities");
+                console.log("ERROR : unable to GET accomodation availabilities");
                 return false;
             });
         }
 
-        function getAvailableStartDate(usr, pwd, agency, lot_no, culture = "fr_FR", site = 1){
-            var url = "http://web4g.arkiane.com/api/api/"+usr+"/"+pwd+"/"+agency+"/"+site+"/fr-FR/Dates/Get?lot_no="+lot_no;
-            var req = $.ajax({dataType: "jsonp", url: url, success : function (data) {
-                $.each(data, function( index, value ){
-                    ds.push(value.substr(0,10));
-                });
-                console.log("Nombre de jour de début spécifiés = "+ds.length);
-            }});
+        function getAvailableDate(std = ""){
+            var url = base_url+"Dates/Get?lot_no="+settings.lot_no;
+            var tmp_data = new Array();
+            if(std != ""){
+                de = new Array();
+                url = url+"&startDate="+std;
+            }
+            var req = $.ajax({dataType: "jsonp", url: url});
             
+            //Success
+            req.done(function(data){
+                $.each(data, function( index, value ){
+                    tmp_data.push(value.substr(0,10));
+                });
+                if(std != ""){
+                    console.log("Nombre de jour de fin spécifiés = "+de.length);
+                }else{
+                    console.log("Nombre de jour de début spécifiés = "+ds.length);
+                }
+            });
+
+            req.always(function(){
+                if(std != ""){
+                    de = tmp_data;
+                    setPricesByDuration();
+                }else
+                    ds = tmp_data;
+                console.log("complete "+tmp_data.length);
+            });
+
             // Error
             req.fail(function(){
-                console.log("ERROR : unable to GET available start dates");
-                return false;
+                console.log("ERROR : unable to GET available dates");
             });
+
+            return req;
         }
 
-        function getAccomodationDetails(usr, pwd, agency, lot_no, culture = "fr_FR", site = 1, duration = 7){
-            
+        function getAccomodationDetails(edt =""){
             var std = startDate.substr(8,2)+'/'+startDate.substr(5,2)+'/'+startDate.substr(0,4);
-            var edt = new Date(startDate.substr(0,4), parseInt(startDate.substr(5,2)) - 1, startDate.substr(8,2));
-            edt.setDate(edt.getDate() + duration);
-            var url = "http://web4g.arkiane.com/api/api/"+usr+"/"+pwd+"/"+agency+"/"+site+"/fr-FR/Details/?lot_no="+lot_no+"&startDate="+std+"&endDate="+edt.getDate()+'/'+(edt.getMonth()+1)+'/'+edt.getFullYear();
-            var req = $.ajax({dataType: "jsonp", url: url, success : function (data) {
-                accomodation = data;
-                $("select[name=duration]").append('<option value="'+edt.getDate()+'/'+(edt.getMonth()+1)+'/'+edt.getFullYear()+'">'+duration+' jours - A partir de '+data.LotDetails[0].prix+' €</option>');
-            }});
+            if(edt == ""){
+                edt = new Date(startDate.substr(0,4), parseInt(startDate.substr(5,2)) - 1, startDate.substr(8,2));
+                edt.setDate(edt.getDate() + settings.default_duration);
+                edt = edt.getDate()+'/'+(edt.getMonth()+1)+'/'+edt.getFullYear();
+            }
+            
+            var url = base_url+"Details/?lot_no="+settings.lot_no+"&startDate="+std+"&endDate="+ edt;
+            var req = $.ajax({dataType: "jsonp", url: url, beforeSend: function(){$("#ap-wait").show();} });
+
+            req.done(function (data){
+                $("select[name=duration]").append('<option value="'+edt+'">X jours - A partir de '+data.LotDetails[0].prix+' €</option>');
+                console.log("fini");
+                return data;
+            });
+
+            req.always(function(){
+                //hide the waiter
+                $("#ap-wait").hide();
+            });
             
             // Error
             req.fail(function(){
@@ -157,10 +192,18 @@
         }
         
         //Add one day to increment a date
-        function addDay(date) {
+        function addDay(date){
             var result = new Date(date);
             result.setDate(result.getDate() + 1);
             return result;
+        }
+
+        // Populate menu list with prices by duration
+        function setPricesByDuration(){
+            var duration = 'x';
+            for(i = 0; i < de.length; i++){
+               getAccomodationDetails(de[i]);
+            }
         }
 
         function buildForm(){
@@ -169,6 +212,9 @@
 
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="visibility:hidden"></div>');
+
+            //waiter
+            $("#calendar-infos").append('<div id="ap-wait" style="display:none">Merci de patienter<br/><img src="./css/images/ajax-loader.gif" alt="chargement en cours" /></div>');
             $("#calendar-infos").append('<p id="dateStart"></p>');
 
             // Stay duration
