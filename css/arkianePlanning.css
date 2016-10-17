@@ -27,12 +27,12 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
 	text-shadow: 0 -1px 0 #30332a;
 }
 
-#calendar-infos{
+#calendar-infos, #ap-wait{
     width: 269px;
     height: 199px;
 }
 
-#calendar-widget, #calendar-infos{
+#calendar-widget, #calendar-infos, #ap-wait{
     margin:0px;
     padding: 10px;
     float:left;
@@ -40,5 +40,8 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
 
 #calendar{
     width:540px;
-    border:1px dashed red;
+}
+
+#ap-wait{
+    text-align: center;
 }

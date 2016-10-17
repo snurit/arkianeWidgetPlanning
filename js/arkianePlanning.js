@@ -70,6 +70,7 @@
                     }
                 },
                 onSelect: function(selected, evnt){
+                    $("#calendar-infos").hide();
                     if ($.inArray(selected, ds) >= 0) {
                         var arr = selected.split('-');
                         $("input[name=startdate]").val(arr[2]+'/'+arr[1]+'/'+arr[0]);
@@ -77,13 +78,10 @@
 
                         startDate = selected;
                         // Get available end date for accomation and selected start date
-                        console.log("nb jours spécifiés ="+ds.length);
                         getAvailableDate(selected);
-                        $("#calendar-infos").css("visibility", "visible");
                     }else{
                         $("input[name=startdate]").val("");
                         $("#dateStart").text("");
-                        $("#calendar-infos").css("visibility", "hidden");
                     }
                 }
             });
@@ -95,13 +93,10 @@
         //Retrieving available date for a lot_no
         function getAvailabilities(){
             var url = base_url+"Planning/Get?lot_no="+settings.lot_no;
-            console.log(url);
             var req = $.ajax({dataType: "jsonp", url: url, success: function(data) {
                 $.each(data, function( index, value ){
                     Array.prototype.push.apply(dt, getDateRange(value.dispo_deb.substr(0,10), value.dispo_fin.substr(0,10)));
                 });
-
-                console.log("Nombre de jours dispos = "+dt.length);
             }});
 
             //Done when an error occur
@@ -118,6 +113,9 @@
                 de = new Array();
                 url = url+"&startDate="+std;
             }
+
+            console.log(url);
+
             var req = $.ajax({dataType: "jsonp", url: url});
             
             //Success
@@ -125,20 +123,17 @@
                 $.each(data, function( index, value ){
                     tmp_data.push(value.substr(0,10));
                 });
-                if(std != ""){
-                    console.log("Nombre de jour de fin spécifiés = "+de.length);
-                }else{
-                    console.log("Nombre de jour de début spécifiés = "+ds.length);
-                }
             });
 
             req.always(function(){
                 if(std != ""){
                     de = tmp_data;
+                    console.log("GETAVAILABILITIES - In std !=''");
                     setPricesByDuration();
-                }else
+                }else{
                     ds = tmp_data;
-                console.log("complete "+tmp_data.length);
+                    console.log("GETAVAILABILITIES - In std ==''");
+                }
             });
 
             // Error
@@ -149,26 +144,36 @@
             return req;
         }
 
-        function getAccomodationDetails(edt =""){
-            var std = startDate.substr(8,2)+'/'+startDate.substr(5,2)+'/'+startDate.substr(0,4);
+        function getAccomodationDetails(edt = ""){
+            console.log("GETACCOMODATIONDETAILS - in & edt="+edt);
+            var std = startDate.substr(8,2)+'-'+startDate.substr(5,2)+'-'+startDate.substr(0,4);
             if(edt == ""){
                 edt = new Date(startDate.substr(0,4), parseInt(startDate.substr(5,2)) - 1, startDate.substr(8,2));
                 edt.setDate(edt.getDate() + settings.default_duration);
-                edt = edt.getDate()+'/'+(edt.getMonth()+1)+'/'+edt.getFullYear();
+                edt = edt.getDate()+'-'+(edt.getMonth()+1)+'-'+edt.getFullYear();
+                console.log("GETACCOMODATIONDETAILS - in if & edt="+edt);
             }
             
             var url = base_url+"Details/?lot_no="+settings.lot_no+"&startDate="+std+"&endDate="+ edt;
-            var req = $.ajax({dataType: "jsonp", url: url, beforeSend: function(){$("#ap-wait").show();} });
+            console.log(url);
+            var req = $.ajax({dataType: "jsonp", url: url, beforeSend: function(){
+                console.log("GETACCOMODATIONDETAILS - in ajax");
+                $("select[name=duration]").empty();
+                $("#ap-wait").show();
+            } });
 
             req.done(function (data){
+                console.log("GETACCOMODATIONDETAILS - in DONE & prix = "+data.LotDetails[0].prix);
                 $("select[name=duration]").append('<option value="'+edt+'">X jours - A partir de '+data.LotDetails[0].prix+' €</option>');
-                console.log("fini");
+                $("select[name=duration]").selectmenu('refresh');
                 return data;
             });
 
             req.always(function(){
                 //hide the waiter
                 $("#ap-wait").hide();
+                //show form
+                $("#calendar-infos").show();
             });
             
             // Error
@@ -200,8 +205,9 @@
 
         // Populate menu list with prices by duration
         function setPricesByDuration(){
-            var duration = 'x';
+            console.log("SETPRICESBYDURATION")
             for(i = 0; i < de.length; i++){
+                console.log("SETPRICESBYDURATION -- in loop")
                getAccomodationDetails(de[i]);
             }
         }
@@ -210,11 +216,12 @@
             // creating a div for calendar
             $(settings.target).append('<div id="calendar-widget" class="ll-skin-cangas"></div>');
 
-            // creating a div for showing booking information
-            $(settings.target).append('<div id="calendar-infos" style="visibility:hidden"></div>');
-
             //waiter
-            $("#calendar-infos").append('<div id="ap-wait" style="display:none">Merci de patienter<br/><img src="./css/images/ajax-loader.gif" alt="chargement en cours" /></div>');
+            $(settings.target).append('<div id="ap-wait" style="display:none">Merci de patienter<br/><img src="./css/images/ajax-loader.gif" alt="chargement en cours" /></div>');
+
+            // creating a div for showing booking information
+            $(settings.target).append('<div id="calendar-infos" style="display:none"></div>');
+
             $("#calendar-infos").append('<p id="dateStart"></p>');
 
             // Stay duration
@@ -223,11 +230,13 @@
             $("select[name=duration]").selectmenu();
             $("select[name=duration]").on( "selectmenuselect", function() { $("input[name=enddate]").val($( "select[name=duration]" ).val());} );
 
-            // Cancel insurance
+            // Cancel insurance (disabled)
+            /*
             $("#calendar-infos").append('<fieldset name="insurance-select"><legend>Assurance annulation</legend></fieldset>');
             $("fieldset[name=insurance-select]").append('<label for="insurance-yes">J accepte</label><input type="radio" name="insurance-select" id="insurance-yes" value="rubr_assurance|true">');
             $("fieldset[name=insurance-select]").append('<label for="insurance-no">Je refuse</label><input type="radio" name="insurance-select" id="insurance-no" value="rubr_assurance|false">');
             $("input[name=insurance-select]").checkboxradio().on( "change", function() { $("#input-insurance").val($('input[name=insurance-select]:checked').val()); console.log('insurance select');} );
+            */
 
             $("#calendar-infos").append('<form action="http://montagneimmo.arkiane.com/fr-FR/Resa/Validate" method="post" name="calendar-form" target="_blank"></form>');
             // init calendar-infos content
@@ -235,11 +244,12 @@
             $("form[name=calendar-form]").append('<input type="hidden" name="comm_no" value="101">');
             $("form[name=calendar-form]").append('<input type="hidden" name="startdate">');
             $("form[name=calendar-form]").append('<input type="hidden" name="enddate">');
-            $("form[name=calendar-form]").append('<input type="hidden" name="selectedRubriques" id="input-insurance" value="rubr_assurance|true">');
+            
+            //$("form[name=calendar-form]").append('<input type="hidden" name="selectedRubriques" id="input-insurance" value="rubr_assurance|true">');
             // NbAdultes set by default to 0
-            $("form[name=calendar-form]").append('<input type="hidden" name="selectedRubriques" value="nb_adultes|0">');
+            //$("form[name=calendar-form]").append('<input type="hidden" name="selectedRubriques" value="nb_adultes|0">');
             // NbEnfants set by default to 0
-            $("form[name=calendar-form]").append('<input type="hidden" name="selectedRubriques" value="nb_enfants|0">');
+            //$("form[name=calendar-form]").append('<input type="hidden" name="selectedRubriques" value="nb_enfants|0">');
             // Submit button
             $("form[name=calendar-form]").append('<input type="submit" value="Réserver">');
         }
