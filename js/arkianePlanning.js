@@ -74,7 +74,7 @@
                     if ($.inArray(selected, ds) >= 0) {
                         var arr = selected.split('-');
                         $("input[name=startdate]").val(arr[2]+'/'+arr[1]+'/'+arr[0]);
-                        $("#dateStart").text("Début de séjour : "+selected);
+                        //$("#dateStart").text("Début de séjour : "+selected);
 
                         startDate = selected;
                         // Get available end date for accomation and selected start date
@@ -147,25 +147,23 @@
         function getAccomodationDetails(edt = ""){
             console.log("GETACCOMODATIONDETAILS - in & edt="+edt);
             var std = startDate.substr(8,2)+'-'+startDate.substr(5,2)+'-'+startDate.substr(0,4);
-            if(edt == ""){
-                edt = new Date(startDate.substr(0,4), parseInt(startDate.substr(5,2)) - 1, startDate.substr(8,2));
-                edt.setDate(edt.getDate() + settings.default_duration);
-                edt = edt.getDate()+'-'+(edt.getMonth()+1)+'-'+edt.getFullYear();
-                console.log("GETACCOMODATIONDETAILS - in if & edt="+edt);
-            }
             
             var url = base_url+"Details/?lot_no="+settings.lot_no+"&startDate="+std+"&endDate="+ edt;
             console.log(url);
             var req = $.ajax({dataType: "jsonp", url: url, beforeSend: function(){
                 console.log("GETACCOMODATIONDETAILS - in ajax");
-                $("select[name=duration]").empty();
+                // When populating a jquery dropdown list
+                //$("select[name=duration]").empty();
                 $("#ap-wait").show();
             } });
 
             req.done(function (data){
                 console.log("GETACCOMODATIONDETAILS - in DONE & prix = "+data.LotDetails[0].prix);
-                $("select[name=duration]").append('<option value="'+edt+'">X jours - A partir de '+data.LotDetails[0].prix+' €</option>');
-                $("select[name=duration]").selectmenu('refresh');
+                $("#holidays-price").text(data.LotDetails[0].prix + " €");
+                $("input[name=enddate]").val(edt);
+                // Dropdown list implement
+                //$("select[name=duration]").append('<option value="'+edt+'">'+ diffDays +' jours - A partir de '+data.LotDetails[0].prix+' €</option>');
+                //$("select[name=duration]").selectmenu('refresh');
                 return data;
             });
 
@@ -206,10 +204,16 @@
         // Populate menu list with prices by duration
         function setPricesByDuration(){
             console.log("SETPRICESBYDURATION")
+            //fill the price span
+            console.log("date selectionnée :"+de[0]);
+            getAccomodationDetails(de[0]);
+            /*
+            //implement for populating a dropdown list
             for(i = 0; i < de.length; i++){
                 console.log("SETPRICESBYDURATION -- in loop")
-               getAccomodationDetails(de[i]);
+                getAccomodationDetails(de[i]);
             }
+            */
         }
 
         function buildForm(){
@@ -222,13 +226,13 @@
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="display:none"></div>');
 
-            $("#calendar-infos").append('<p id="dateStart"></p>');
+            $("#calendar-infos").append('<p>Votre séjour à partir de <span id="holidays-price"></span></p>');
 
             // Stay duration
-            $("#calendar-infos").append('<label for="duration">Durée de votre séjour</label>');
-            $("#calendar-infos").append('<select name="duration" id="duration">');
-            $("select[name=duration]").selectmenu();
-            $("select[name=duration]").on( "selectmenuselect", function() { $("input[name=enddate]").val($( "select[name=duration]" ).val());} );
+            //$("#calendar-infos").append('<label for="duration">Durée de votre séjour</label>');
+            //$("#calendar-infos").append('<select name="duration" id="duration">');
+            //$("select[name=duration]").selectmenu();
+            //$("select[name=duration]").on( "selectmenuselect", function() { $("input[name=enddate]").val($( "select[name=duration]" ).val());} );
 
             // Cancel insurance (disabled)
             /*
