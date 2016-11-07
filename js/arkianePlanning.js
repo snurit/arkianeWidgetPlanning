@@ -7,6 +7,7 @@
             //Minimum number of day before an available booking date
             minBookingDate : "+3D",
             //Maximum booking date
+            //numberOfMonths: [ 2, 3 ],
             maxBookingDate: "+8M",
             selectWeek: true,
             culture: "fr_FR",
