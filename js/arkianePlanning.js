@@ -160,6 +160,9 @@
 
             req.done(function (data){
                 console.log("GETACCOMODATIONDETAILS - in DONE & prix = "+data.LotDetails[0].prix);
+                if(data.LotDetails[0].p_sr != "0"){
+                    $("#holidays-price-sr").text(data.LotDetails[0].p_sr + " €");
+                }
                 $("#holidays-price").text(data.LotDetails[0].prix + " €");
                 $("input[name=enddate]").val(edt);
                 // Dropdown list implement
@@ -227,7 +230,7 @@
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="display:none"></div>');
 
-            $("#calendar-infos").append('<p>Votre séjour à partir de <span id="holidays-price"></span></p>');
+            $("#calendar-infos").append('<p>Votre séjour à partir de <span id="holidays-price-sr"></span> <span id="holidays-price"></span></p>');
 
             // Stay duration
             //$("#calendar-infos").append('<label for="duration">Durée de votre séjour</label>');

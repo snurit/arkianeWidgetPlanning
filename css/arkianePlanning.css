@@ -32,6 +32,32 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
     height: 199px;
 }
 
+#calendar-infos > p{
+    text-align: center;
+    font-size: 2em;
+}
+
+#calendar-infos > form{
+    text-align:center;
+}
+
+#calendar-infos > form > input[type=submit]{
+    display: block;
+    font-size: 2em;
+    width:100%;
+    color:white;
+    border:0px;
+    background-color: #96b534;
+}
+
+#holidays-price{
+    font-weight: bold;
+}
+
+#holidays-price-sr{
+    text-decoration: underline;
+}
+
 #calendar-widget, #calendar-infos, #ap-wait{
     margin:0px;
     padding: 10px;
