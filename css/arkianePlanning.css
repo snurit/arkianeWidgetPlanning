@@ -30,11 +30,13 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
 #calendar-infos, #ap-wait{
     width: 269px;
     height: 199px;
+    margin:0px;
+    padding: 0px;
 }
 
 #calendar-infos > p{
     text-align: center;
-    font-size: 2em;
+    font-size: 1.25em;
 }
 
 #calendar-infos > form{
@@ -52,10 +54,12 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
 
 #holidays-price{
     font-weight: bold;
+    font-size: 2em;
 }
 
 #holidays-price-sr{
-    text-decoration: underline;
+    text-decoration: line-through;
+    font-size: 2em;
 }
 
 #calendar-widget, #calendar-infos, #ap-wait{
@@ -65,7 +69,9 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
 }
 
 #calendar{
-    width:540px;
+    width:580px;
+    margin:0px;
+    padding: 0px;
 }
 
 #ap-wait{

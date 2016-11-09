@@ -225,12 +225,12 @@
             $(settings.target).append('<div id="calendar-widget" class="ll-skin-cangas"></div>');
 
             //waiter
-            $(settings.target).append('<div id="ap-wait" style="display:none">Merci de patienter<br/><img src="./css/images/ajax-loader.gif" alt="chargement en cours" /></div>');
+            $(settings.target).append('<div id="ap-wait" style="display:none">Merci de patienter<br/><img src="http://webparts.montagneimmo.com/arkianeWidgetPlanning/css/images/ajax-loader.gif" alt="chargement en cours" /></div>');
 
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="display:none"></div>');
 
-            $("#calendar-infos").append('<p>Votre séjour à partir de <span id="holidays-price-sr"></span> <span id="holidays-price"></span></p>');
+            $("#calendar-infos").append('<p>Votre séjour à partir de <br/><span id="holidays-price-sr"><br/></span> <span id="holidays-price"></span></p>');
 
             // Stay duration
             //$("#calendar-infos").append('<label for="duration">Durée de votre séjour</label>');
