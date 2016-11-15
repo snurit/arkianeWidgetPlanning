@@ -105,8 +105,8 @@
 
 .ll-skin-cangas td.ui-state-disabled .ui-state-default {
 	text-shadow: none;
-	opacity: .8;
-	color: #6c7173;
+	opacity: .25;
+	color:#000000;
 }
 
 .ll-skin-cangas td .ui-state-active,
