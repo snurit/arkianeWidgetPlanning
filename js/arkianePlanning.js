@@ -17,6 +17,8 @@
         
         var base_url = "http://web4g.arkiane.com/api/api/"+settings.usr+"/"+settings.pwd+"/"+settings.agency+"/"+settings.site+"/"+settings.culture+"/";
         
+        //test
+
         // Days available
         var dt = new Array();
         // Start booking dates available
