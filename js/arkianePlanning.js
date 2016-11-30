@@ -253,7 +253,7 @@
 
             // message when a price is not set
             $(settings.target).append('<div id="ap-no-price" style="display:none"></div>');
-            $("#ap-no-price").append('<p><br/>Appartement disponible a cette date.<br/><br/>Contactez-nous au <strong>04 79 05 95 22</strong> pour connaitre les modalités tarifaires et services disponibles.<br/><br/>Vous pouvez aussi sélectionner une autre date.</p>');
+            $("#ap-no-price").append('<p>Appartement disponible a cette date.<br/><br/>Contactez-nous au <br/><strong>04 79 05 95 22</strong> <br/>pour connaitre les modalités tarifaires et services disponibles.<br/><br/>Vous pouvez aussi sélectionner une autre date.</p>');
 
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="display:none"></div>');

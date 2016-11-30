@@ -62,7 +62,7 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
     font-size: 2em;
 }
 
-#calendar-widget, #calendar-infos, #ap-wait{
+#calendar-widget, #calendar-infos, #ap-wait, #ap-no-price{
     margin:0px;
     padding: 10px;
     float:left;
