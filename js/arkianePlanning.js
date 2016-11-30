@@ -90,22 +90,35 @@
             });
 
             //Show the hidden calendar
+            
             $(settings.target).css("visibility", "visible");
+        }
+
+        function builDatePicker(){
+
         }
 
         //Retrieving available date for a lot_no
         function getAvailabilities(){
             var url = base_url+"Planning/Get?lot_no="+settings.lot_no;
-            var req = $.ajax({dataType: "jsonp", url: url, success: function(data) {
+            var req = $.ajax({dataType: "jsonp", url: url});
+
+            req.done(function(data){
                 $.each(data, function( index, value ){
                     Array.prototype.push.apply(dt, getDateRange(value.dispo_deb.substr(0,10), value.dispo_fin.substr(0,10)));
                 });
-            }});
+            });
 
             //Done when an error occur
             req.fail(function(){
                 console.log("ERROR : unable to GET accomodation availabilities");
                 return false;
+            });
+
+            req.always(function(){
+                //refreshing calendar to avoid an issue : a full non availabilities on the first month when calendar is loaded (AJAX problem)
+                console.log("CALENDAR REFRESH");
+                $("#calendar-widget").datepicker("refresh");
             });
         }
 
