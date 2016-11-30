@@ -71,7 +71,9 @@
                     }
                 },
                 onSelect: function(selected, evnt){
+                    //hiding price displayed or no price message
                     $("#calendar-infos").hide();
+                    $("#ap-no-price").hide();
                     if ($.inArray(selected, ds) >= 0) {
                         var arr = selected.split('-');
                         $("input[name=startdate]").val(arr[2]+'/'+arr[1]+'/'+arr[0]);
@@ -159,23 +161,32 @@
             } });
 
             req.done(function (data){
-                console.log("GETACCOMODATIONDETAILS - in DONE & prix = "+data.LotDetails[0].prix);
-                if(data.LotDetails[0].p_sr != "0"){
-                    $("#holidays-price-sr").text(data.LotDetails[0].p_sr + " €");
+                //hide the waiter
+                $("#ap-wait").hide();
+                
+                try{
+                    console.log("GETACCOMODATIONDETAILS - in DONE & prix = "+data.LotDetails[0].prix);
+                    if(data.LotDetails[0].p_sr != "0"){
+                        $("#holidays-price-sr").text(data.LotDetails[0].p_sr + " €");
+                    }
+                    $("#holidays-price").text(data.LotDetails[0].prix + " €");
+                    $("input[name=enddate]").val(edt);
+                    $("#calendar-infos").show();
+
+                    // Dropdown list implement
+                    //$("select[name=duration]").append('<option value="'+edt+'">'+ diffDays +' jours - A partir de '+data.LotDetails[0].prix+' €</option>');
+                    //$("select[name=duration]").selectmenu('refresh');
+                }catch(err){
+                    // price not set
+                    console.log("GETACCOMODATIONDETAILS - in DONE & prix UNDEFINED");
+                    $("#ap-no-price").show();
                 }
-                $("#holidays-price").text(data.LotDetails[0].prix + " €");
-                $("input[name=enddate]").val(edt);
-                // Dropdown list implement
-                //$("select[name=duration]").append('<option value="'+edt+'">'+ diffDays +' jours - A partir de '+data.LotDetails[0].prix+' €</option>');
-                //$("select[name=duration]").selectmenu('refresh');
                 return data;
             });
 
             req.always(function(){
                 //hide the waiter
                 $("#ap-wait").hide();
-                //show form
-                $("#calendar-infos").show();
             });
             
             // Error
@@ -227,9 +238,12 @@
             //waiter
             $(settings.target).append('<div id="ap-wait" style="display:none">Merci de patienter<br/><img src="http://webparts.montagneimmo.com/arkianeWidgetPlanning/css/images/ajax-loader.gif" alt="chargement en cours" /></div>');
 
+            // message when a price is not set
+            $(settings.target).append('<div id="ap-no-price" style="display:none"></div>');
+            $("#ap-no-price").append('<p><br/>Appartement disponible a cette date.<br/><br/>Contactez-nous au <strong>04 79 05 95 22</strong> pour connaitre les modalités tarifaires et services disponibles.<br/><br/>Vous pouvez aussi sélectionner une autre date.</p>');
+
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="display:none"></div>');
-
             $("#calendar-infos").append('<p>Votre séjour à partir de <br/><span id="holidays-price-sr"><br/></span> <span id="holidays-price"></span></p>');
 
             // Stay duration

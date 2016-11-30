@@ -34,7 +34,7 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
     padding: 0px;
 }
 
-#calendar-infos > p{
+#calendar-infos > p, #ap-no-price > p{
     text-align: center;
     font-size: 1.25em;
 }
