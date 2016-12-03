@@ -27,8 +27,12 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
 	text-shadow: 0 -1px 0 #30332a;
 }
 
+#arkianePlanningWidget{
+    width:500px;
+}
+
 #calendar-infos, #ap-wait, #ap-no-price{
-    width: 269px;
+    width: 100%;
     height: 199px;
     margin:0px;
     padding: 0px;
@@ -78,3 +82,11 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
     text-align: center;
 }
 
+#arkianePlanning-calendarStart > p, #arkianePlanning-calendarEnd > p{
+    text-align: center;
+    font-size: 1.25em;
+    background-color: #96b534;
+    color: white;
+    padding: 1em;
+    font-variant: small-caps;
+}
