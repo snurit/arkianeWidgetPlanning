@@ -81,6 +81,7 @@
                     $.when(getAvailableDate(startDate)).done(function(availableEndDateParameters){
                         buildEndCalendar();
                         $("#arkianePlanning-calendarStart").hide();
+                        $("#arkianePlanning-calendarEnd").datepicker("refresh");
                         $("#arkianePlanning-calendarEnd").show();
                     });
                 }
@@ -252,8 +253,8 @@
         function setPricesByDuration(){
             console.log("SETPRICESBYDURATION")
             //fill the price span
-            console.log("date selectionnée :"+de[0]);
-            getAccomodationDetails(de[0]);
+            console.log("date selectionnée :"+endDate);
+            getAccomodationDetails(endDate);
         }
 
         //reset the widget
@@ -274,15 +275,15 @@
             $(settings.target).append('<div id="arkianePlanning-calendarEnd" style="display:none" class="ll-skin-cangas"><p>Choisissez votre date de départ</p></div>');
 
             //waiter
-            $(settings.target).append('<div id="ap-wait" style="display:none">Merci de patienter<br/><img src="http://webparts.montagneimmo.com/arkianeWidgetPlanning/css/images/ajax-loader.gif" alt="chargement en cours" /></div>');
+            $(settings.target).append('<div id="ap-wait" style="display:none"><p>Merci de patienter<br/><img src="http://webparts.montagneimmo.com/arkianeWidgetPlanning/css/images/ajax-loader.gif" alt="chargement en cours" /></p></div>');
 
             // message when a price is not set
             $(settings.target).append('<div id="ap-no-price" style="display:none"></div>');
-            $("#ap-no-price").append('<p>Appartement disponible a cette date.<br/><br/>Contactez-nous au <br/><strong>04 79 05 95 22</strong> <br/>pour connaitre les modalités tarifaires et services disponibles.<br/><br/>Vous pouvez aussi sélectionner une autre date.</p>');
+            $("#ap-no-price").append('<p>Appartement disponible a cette date</p><br/><br/>Contactez-nous au <br/><strong>04 79 05 95 22</strong> <br/>pour connaitre les modalités tarifaires et services disponibles.<br/><br/>Vous pouvez aussi sélectionner une autre date.');
 
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="display:none"></div>');
-            $("#calendar-infos").append('<p>Votre séjour à partir de <br/><span id="holidays-price-sr"><br/></span> <span id="holidays-price"></span></p>');
+            $("#calendar-infos").append('<p>Votre séjour à partir de </p><br/><span id="holidays-price-sr"><br/></span> <span id="holidays-price"></span>');
 
             $("#calendar-infos").append('<form action="http://montagneimmo.arkiane.com/fr-FR/Resa/Validate" method="post" name="calendar-form" target="_blank"></form>');
             // init calendar-infos content

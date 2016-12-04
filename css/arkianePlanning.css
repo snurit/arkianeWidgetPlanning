@@ -28,7 +28,7 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
 }
 
 #arkianePlanningWidget{
-    width:500px;
+    width:425px;
 }
 
 #calendar-infos, #ap-wait, #ap-no-price{
@@ -36,11 +36,6 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
     height: 199px;
     margin:0px;
     padding: 0px;
-}
-
-#calendar-infos > p, #ap-no-price > p{
-    text-align: center;
-    font-size: 1.25em;
 }
 
 #calendar-infos > form{
@@ -78,11 +73,11 @@ td.ap-isBookable, table.ui-datepicker-calendar tbody td.specialDay a {
     padding: 0px;
 }
 
-#ap-wait{
+#ap-wait, #calendar-infos{
     text-align: center;
 }
 
-#arkianePlanning-calendarStart > p, #arkianePlanning-calendarEnd > p{
+#arkianePlanning-calendarStart > p, #arkianePlanning-calendarEnd > p, #calendar-infos > p, #ap-no-price > p, #ap-wait > p{
     text-align: center;
     font-size: 1.25em;
     background-color: #96b534;
