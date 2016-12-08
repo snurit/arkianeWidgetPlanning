@@ -275,7 +275,7 @@
             $(settings.target).append('<div id="arkianePlanning-calendarEnd" style="display:none" class="ll-skin-cangas"><p>Choisissez votre date de départ</p></div>');
 
             //waiter
-            $(settings.target).append('<div id="ap-wait" style="display:none"><p>Merci de patienter<br/><img src="http://webparts.montagneimmo.com/arkianeWidgetPlanning/css/images/ajax-loader.gif" alt="chargement en cours" /></p></div>');
+            $(settings.target).append('<div id="ap-wait" style="display:none;text-align:center"><p>Merci de patienter</p><img src="http://webparts.montagneimmo.com/arkianeWidgetPlanning/css/images/ajax-loader.gif" alt="chargement en cours" /></div>');
 
             // message when a price is not set
             $(settings.target).append('<div id="ap-no-price" style="display:none"></div>');
@@ -283,7 +283,7 @@
 
             // creating a div for showing booking information
             $(settings.target).append('<div id="calendar-infos" style="display:none"></div>');
-            $("#calendar-infos").append('<p>Votre séjour à partir de </p><br/><span id="holidays-price-sr"><br/></span> <span id="holidays-price"></span>');
+            $("#calendar-infos").append('<p>Votre séjour à partir de </p><span id="holidays-price-sr"><br/></span> <span id="holidays-price"></span>');
 
             $("#calendar-infos").append('<form action="http://montagneimmo.arkiane.com/fr-FR/Resa/Validate" method="post" name="calendar-form" target="_blank"></form>');
             // init calendar-infos content
@@ -293,7 +293,7 @@
             $("form[name=calendar-form]").append('<input type="hidden" name="enddate">');
 
             $("form[name=calendar-form]").append('<button type="submit" class="ui-button ui-widget ui-corner-all" value="Submit"><span class="ui-icon ui-icon-suitcase"></span> Réserver</button>');
-            $("form[name=calendar-form]").append('<p>ou</p>');
+            //$("form[name=calendar-form]").append('<p>ou</p>');
             $("form[name=calendar-form]").append('<button id="btn_arkPlanReset" type="reset" class="ui-button ui-widget ui-corner-all"><span class="ui-icon ui-icon-search"></span> Nouvelle recherche</button>');
             $("#btn_arkPlanReset").button().click(function(){arkPlanFormReset();});
         }
