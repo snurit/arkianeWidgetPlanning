@@ -285,7 +285,7 @@
             $(settings.target).append('<div id="calendar-infos" style="display:none"></div>');
             $("#calendar-infos").append('<p>Votre séjour à partir de </p><span id="holidays-price-sr"><br/></span> <span id="holidays-price"></span>');
 
-            $("#calendar-infos").append('<form action="http://montagneimmo.arkiane.com/fr-FR/Resa/Validate" method="post" name="calendar-form" target="_blank"></form>');
+            $("#calendar-infos").append('<form action="https://montagneimmo.locvacances.com/fr-FR/Resa/Validate" method="get" name="calendar-form" target="_blank"></form>');
             // init calendar-infos content
             $("form[name=calendar-form]").append('<input type="hidden" name="lot_no" value="'+settings.lot_no+'">');
             $("form[name=calendar-form]").append('<input type="hidden" name="comm_no" value="101">');
@@ -295,6 +295,7 @@
             $("form[name=calendar-form]").append('<button type="submit" class="ui-button ui-widget ui-corner-all" value="Submit"><span class="ui-icon ui-icon-suitcase"></span> Réserver</button>');
             //$("form[name=calendar-form]").append('<p>ou</p>');
             $("form[name=calendar-form]").append('<button id="btn_arkPlanReset" type="reset" class="ui-button ui-widget ui-corner-all"><span class="ui-icon ui-icon-search"></span> Nouvelle recherche</button>');
+            $("form[name=calendar-form]").append('<p> lot_no = ' + settings.lot_no + '</p>');
             $("#btn_arkPlanReset").button().click(function(){arkPlanFormReset();});
         }
     };
