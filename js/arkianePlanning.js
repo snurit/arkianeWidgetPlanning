@@ -295,7 +295,6 @@
             $("form[name=calendar-form]").append('<button type="submit" class="ui-button ui-widget ui-corner-all" value="Submit"><span class="ui-icon ui-icon-suitcase"></span> Réserver</button>');
             //$("form[name=calendar-form]").append('<p>ou</p>');
             $("form[name=calendar-form]").append('<button id="btn_arkPlanReset" type="reset" class="ui-button ui-widget ui-corner-all"><span class="ui-icon ui-icon-search"></span> Nouvelle recherche</button>');
-            $("form[name=calendar-form]").append('<p> lot_no = ' + settings.lot_no + '</p>');
             $("#btn_arkPlanReset").button().click(function(){arkPlanFormReset();});
         }
     };
