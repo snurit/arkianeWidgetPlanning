@@ -271,7 +271,7 @@
 
         function buildForm(){
             // creating a div for calendars
-            $(settings.target).append('<div id="arkianePlanning-calendarStart" class="ll-skin-cangas"><p>Choisissez votre date de d arrivée</p></div>');
+            $(settings.target).append('<div id="arkianePlanning-calendarStart" class="ll-skin-cangas"><p>Choisissez votre date d\'arrivée</p></div>');
             $(settings.target).append('<div id="arkianePlanning-calendarEnd" style="display:none" class="ll-skin-cangas"><p>Choisissez votre date de départ</p></div>');
 
             //waiter
