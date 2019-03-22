@@ -29,7 +29,7 @@
             dateFormat: 'yy-mm-dd'
         };
         
-        var base_url = "http://web4g.arkiane.com/api/api/"+settings.usr+"/"+settings.pwd+"/"+settings.agency+"/"+settings.site+"/"+settings.culture+"/";
+        var base_url = "https://api.locvacances.com/api/api/"+settings.usr+"/"+settings.pwd+"/"+settings.agency+"/"+settings.site+"/"+settings.culture+"/";
 
         // Days available
         var dt = new Array();
