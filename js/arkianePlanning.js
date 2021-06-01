@@ -275,7 +275,7 @@
             $(settings.target).append('<div id="arkianePlanning-calendarEnd" style="display:none" class="ll-skin-cangas"><p>Choisissez votre date de départ</p></div>');
 
             //waiter
-            $(settings.target).append('<div id="ap-wait" style="display:none;text-align:center"><p>Merci de patienter</p><img src="https://webparts.montagneimmo.com/arkianeWidgetPlanning/css/images/ajax-loader.gif" alt="chargement en cours" /></div>');
+            $(settings.target).append('<div id="ap-wait" style="display:none;text-align:center"><p>Merci de patienter</p><img src="/css/images/ajax-loader.gif" alt="chargement en cours" /></div>');
 
             // message when a price is not set
             $(settings.target).append('<div id="ap-no-price" style="display:none"></div>');
